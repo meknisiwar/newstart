@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manage Reservations - Admin{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="bi bi-calendar-check"></i> Manage Reservations</h1>
+        <a href="{{ path('app_admin_dashboard') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="btn-group" role="group">
+                <a href="{{ path('app_admin_reservations') }}" class="btn btn-outline-primary {% if filter == 'all' %}active{% endif %}">
+                    All Reservations
+                </a>
+                <a href="{{ path('app_admin_reservations', {filter: 'upcoming'}) }}" class="btn btn-outline-success {% if filter == 'upcoming' %}active{% endif %}">
+                    Upcoming Only
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Date & Time</th>
+                            <th>Guests</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for reservation in reservations %}
+                        <tr>
+                            <td><strong>#{{ reservation.id }}</strong></td>
+                            <td>{{ reservation.user.firstName }} {{ reservation.user.lastName }}</td>
+                            <td>{{ reservation.reservationDate|date('F d, Y H:i') }}</td>
+                            <td>{{ reservation.numberOfGuests }} guests</td>
+                            <td>
+                                {% set statusClass = {
+                                    'pending': 'warning',
+                                    'confirmed': 'success',
+                                    'cancelled': 'danger',
+                                    'completed': 'secondary'
+                                } %}
+                                <span class="badge bg-{{ statusClass[reservation.status] ?? 'secondary' }}">
+                                    {{ reservation.status|upper }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a href="{{ path('app_admin_reservation_show', {id: reservation.id}) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i> View
+                                    </a>
+                                    <form method="post" action="{{ path('app_admin_reservation_delete', {id: reservation.id}) }}" style="display: inline;" onsubmit="return confirm('Are you sure?');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted py-4">
+                                No reservations found.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <p class="text-muted">Total reservations: {{ reservations|length }}</p>
+    </div>
+</div>
+{% endblock %}
+

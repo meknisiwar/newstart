@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <h1 class="mb-4"><i class="bi bi-speedometer2"></i> Admin Dashboard</h1>
+
+    <div class="row">
+        <!-- Statistics Cards -->
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-people"></i> Total Users</h5>
+                    <h2>{{ stats.total_users }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-box-seam"></i> Total Products</h5>
+                    <h2>{{ stats.total_products }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-cart-check"></i> Total Orders</h5>
+                    <h2>{{ stats.total_orders }}</h2>
+                    <p class="mb-0"><small>{{ stats.pending_orders }} pending</small></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-calendar-check"></i> Reservations</h5>
+                    <h2>{{ stats.total_reservations }}</h2>
+                    <p class="mb-0"><small>{{ stats.upcoming_reservations }} upcoming</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="bi bi-lightning"></i> Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <div class="d-grid">
+                                <a href="{{ path('app_admin_products') }}" class="btn btn-outline-primary">
+                                    <i class="bi bi-box-seam"></i> Manage Products
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="d-grid">
+                                <a href="{{ path('app_admin_product_new') }}" class="btn btn-outline-success">
+                                    <i class="bi bi-plus-circle"></i> Add Product
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="d-grid">
+                                <a href="{{ path('app_admin_orders') }}" class="btn btn-outline-info">
+                                    <i class="bi bi-cart-check"></i> Manage Orders
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="d-grid">
+                                <a href="{{ path('app_admin_reservations') }}" class="btn btn-outline-warning">
+                                    <i class="bi bi-calendar-check"></i> Manage Reservations
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="d-grid">
+                                <a href="{{ path('app_admin_users') }}" class="btn btn-outline-danger">
+                                    <i class="bi bi-people"></i> Manage Users
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="bi bi-clock-history"></i> Recent Activity</h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">Recent orders and reservations will appear here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
